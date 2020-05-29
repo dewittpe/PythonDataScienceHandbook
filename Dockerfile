@@ -13,6 +13,7 @@ RUN apt-get install -y pkg-config libfreetype6-dev build-essential libx11-dev
 
 # Install packages I want
 RUN apt-get install -y neovim git wget bzip2 tree
+RUN apt-get clean
 
 # Add a user with no password to the sudo group
 RUN adduser --disabled-password --gecos '' sisko
@@ -54,3 +55,5 @@ WORKDIR /home/sisko/pdsh
 COPY . .
 RUN conda env create -f environment.yml
 
+# clean up downloads so image stays smaller
+RUN conda clean --all --yes
