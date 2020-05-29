@@ -12,7 +12,7 @@ RUN apt-get install -y sudo
 RUN apt-get install -y pkg-config libfreetype6-dev build-essential libx11-dev
 
 # Install packages I want
-RUN apt-get install -y neovim git wget bzip2
+RUN apt-get install -y neovim git wget bzip2 tree
 
 # Add a user with no password to the sudo group
 RUN adduser --disabled-password --gecos '' sisko
