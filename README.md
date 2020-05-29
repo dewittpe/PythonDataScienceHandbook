@@ -48,6 +48,8 @@ $ conda create -n PDSH python=3.5 --file requirements.txt
 
 You can read more about using conda environments in the [Managing Environments](http://conda.pydata.org/docs/using/envs.html) section of the conda documentation.
 
+A Dockerfile has been added to the repo with the needed conda environment built
+in an Ubuntu based image.
 
 ## License
 
