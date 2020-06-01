@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN cp /etc/apt/sources.list /etc/apt/sources.list~
 RUN sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y sudo
+#RUN apt-get install -y sudo
 
 # System Dependencies
 RUN apt-get install -y pkg-config libfreetype6-dev build-essential libx11-dev
@@ -14,10 +14,10 @@ RUN apt-get install -y pkg-config libfreetype6-dev build-essential libx11-dev
 # Install packages I want
 RUN apt-get install -y neovim git wget bzip2 tree
 
-# Add a user with no password to the sudo group
+# Add a user with no password
 RUN adduser --disabled-password --gecos '' sisko
-RUN adduser sisko sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+#RUN adduser sisko sudo
+#RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER sisko
 WORKDIR /home/sisko
 RUN chmod a+rw /home/sisko
@@ -41,8 +41,7 @@ RUN conda update --all
 RUN mkdir /home/sisko/notebooks
 RUN jupyter notebook --generate-config --allow-root
 
-# ??? what does the following line do ???
-# RUN echo "c.NotebookApp.password = u'sha1:6a3f528eec40:6e896b6e4828f525a6e20e5411cd1c8075d68619'" >> /home/ubuntu/.jupyter/jupyter_notebook_config.py
+RUN echo "c.NotebookApp.password = u'sha1:6a3f528eec40:6e896b6e4828f525a6e20e5411cd1c8075d68619'" >> /home/sisko/.jupyter/jupyter_notebook_config.py
 
 # Jupyter listens ot port 8888
 EXPOSE 8888
@@ -54,3 +53,7 @@ WORKDIR /home/sisko/pdsh
 COPY . .
 RUN conda env create -f environment.yml
 
+# Run Jupytewr notebook as Docker main process
+#CMD ["jupyter", "notebook", "--allow-root", "--notebook-dir=/home/sisko/notebooks", "--ip='*'", "--port=8888", "--no-browser &"]
+
+CMD ["bash"]
